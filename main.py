@@ -60,15 +60,13 @@ class Transaction(db.Model):
     credit_currency = db.Column(db.String(100), nullable=False)
     credit_amount = db.Column(db.Float(), nullable=False)
     description = db.Column(db.Text())
-    created_at = db.Column(db.DateTime(timezone=True))
+    created_at = db.Column(db.String(100))
     create_by = db.Column(db.String(100), nullable=False)
-    updated_at = db.Column(db.DateTime(timezone=True))
+    updated_at = db.Column(db.String(100))
     updated_by = db.Column(db.String(100), nullable=False)
 
 
-##db.create_all()
-
-
+# db.create_all()
 
 
 ### INITIALIZE LOGIN
