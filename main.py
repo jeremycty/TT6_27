@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, url_for, redirect, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
+import requests
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '12345678'
@@ -64,11 +65,23 @@ def login():
                 return redirect(url_for('home', current_user=current_user))
     return render_template("login.html")
 
-@app.route('/exchange-rates', methods=["GET"])
+@app.route('/exchange-rates')
 def exchange_rates():
-    rates=ExchangeRate.query.all()
-    allratesdict=[rate.to_dict() for rate in rates]
-    return jsonify(rates=allratesdict)
+    exchangerates=ExchangeRate.query.all()
+    ##Retrieving live exchange rate
+    try:
+        param = {"base": "SGD"}
+        ratesurl = 'https://api.exchangerate.host/latest'
+        response = requests.get(ratesurl, params=param)
+        ratesdata=response.json()["rates"]
+        ###Update Exchange rate in database
+        for exchangerate in exchangerates:
+            exchangerate.rate=ratesdata[exchangerate.exchange_currency]
+            db.session.commit()
+    finally:
+        updatedexchangerates=ExchangeRate.query.all()
+        allratesdict=[rate.to_dict() for rate in updatedexchangerates]
+        return jsonify(rates=allratesdict)
 
 
 if __name__=="__main__":
