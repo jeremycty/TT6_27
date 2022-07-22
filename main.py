@@ -219,7 +219,12 @@ for account in currencyaccountdata:
     db.session.add(newaccount)
     db.session.commit()
 
-
+#Wallet Table
+class Wallet(db.Model):
+    __tablename__ = 'wallet'
+    id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.Integer)
+    name = db.Column(db.String(1000))
 
 
 ### INITIALIZE LOGIN
@@ -287,6 +292,15 @@ def currency():
 def transaction():
     return redirect(url_for('transaction'))
 
+@app.route('/wallet', methods = ["GET"])
+def wallet():
+    wallet_info = Wallet.query.all()
+    wallet_dict = []
+    
+    for info in wallet_info:
+        wallet_dict.append({'id': info.id, 'user_id': info.user_id,'name': info.name})
+    
+    return jsonify(wallet_dict)
 
 if __name__=="__main__":
     app.run(debug=True)
