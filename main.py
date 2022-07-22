@@ -40,10 +40,13 @@ def login():
         if account is None:
             flash('User does not exist')
         else:
-            if check_password_hash(account.password, inputpw)==False:
+            if account.password== inputpw:
                 flash('Incorrect Password')
             else:
                 login_user(account)
                 flash('Logged in successfully.')
-                return redirect(url_for('secrets', name=account.name))
-    return render_template("login.html", logged_in=current_user.is_authenticated)
+                return redirect(url_for('home', current_user=current_user))
+    return render_template("login.html")
+
+if __name__=="__main__":
+    app.run(debug=True)
