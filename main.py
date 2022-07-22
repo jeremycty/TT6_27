@@ -113,6 +113,14 @@ def exchange_rates():
         allratesdict=[rate.to_dict() for rate in updatedexchangerates]
         return jsonify(rates=allratesdict)
 
-
+@app.route('/currency')
+def currency():
+    return redirect(url_for('currency'))
+    
+@app.route('/transactions')
+def transactions():
+    return redirect(url_for('transactions'))
+    
+    
 if __name__=="__main__":
     app.run(debug=True)
