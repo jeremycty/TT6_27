@@ -35,12 +35,14 @@ class ExchangeRate(db.Model):
 
 ##create Currency TABLE
 class currency(db.Model):
+    __tablename__ = "currency"
     id = db.Column(db.Integer, primary_key=True)
     currency = db.Column(db.String(100), nullable=False)
     amount = db.Column(db.Integer, primary_key=True)
 
 ##create Transaction TABLE
 class transaction(db.Model):
+    __tablename__ = "transaction"
     id = db.Column(db.Integer, primary_key=True)
     debit_currency = db.Column(db.String(100), nullable=False)
     debit_amount = db.Column(db.Integer, primary_key=True)
@@ -117,9 +119,9 @@ def exchange_rates():
 def currency():
     return redirect(url_for('currency'))
     
-@app.route('/transactions')
-def transactions():
-    return redirect(url_for('transactions'))
+@app.route('/transaction')
+def transaction():
+    return redirect(url_for('transaction'))
     
     
 if __name__=="__main__":
