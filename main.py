@@ -139,30 +139,30 @@ def currency():
     return jsonify(currency_wallets=allcurrencywalletsdict)
 
 
-@app.route('/add_transaction')
+@app.route('/add_transaction', methods=["GET","POST"])
 def add_transaction():
-    transactions = Transaction.query.all(walletid)
+    # transactions = Transaction.query.all(walletid)
     if request.method == 'POST':
         id = request.args.get('id')
-        wallet_id = request.args.get('wallet_id')
-        debit_id = request.args.get('debit_id')
-        debit_currency = request.args.get('debit_currency')
-        debit_amount = request.args.get('debit_amount')
-        credit_id = request.args.get('credit_id')
-        credit_currency = request.args.get('credit_currency')
-        credit_amount = request.args.get('credit_amount')
-        description = request.args.get('description')
-        created_at = request.args.get('created_at')
-        create_by = request.args.get('create_by')
-        updated_at = request.args.get('updated_at')
-        updated_by = request.args.get('updated_by')
-        new_transaction = models.Transactions(id=id, wallet_id=wallet_id, debit_id=debit_id, debit_currency=debit_currency, debit_amount=debit_amount,
+        wallet_id = request.form.get('wallet_id')
+        debit_id = request.form.get('debit_id')
+        debit_currency = request.form.get('debit_currency')
+        debit_amount = request.form.get('debit_amount')
+        credit_id = request.form.get('credit_id')
+        credit_currency = request.form.get('credit_currency')
+        credit_amount = request.form.get('credit_amount')
+        description = request.form.get('description')
+        created_at = request.form.get('created_at')
+        create_by = request.form.get('create_by')
+        updated_at = request.form.get('updated_at')
+        updated_by = request.form.get('updated_by')
+        new_transaction = Transaction(id=id, wallet_id=wallet_id, debit_id=debit_id, debit_currency=debit_currency, debit_amount=debit_amount,
                                               credit_id=credit_id, credit_currency=credit_currency, credit_amount=credit_amount,
                                               description=description, created_at=created_at, create_by=create_by,
                                               updated_at=updated_at, updated_by=updated_by)
         db.session.add(new_transaction)
         db.session.commit()
-    return redirect(url_for('transaction'))
+    return redirect(url_for('home'))
 
 @app.route('/wallet', methods = ["GET"])
 def wallet():
