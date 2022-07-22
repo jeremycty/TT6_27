@@ -9,6 +9,41 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+##CREATE TABLE IN DB
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(100), unique=True)
+    password = db.Column(db.String(100))
+    name = db.Column(db.String(1000))
+#Line below only required once, when creating DB.
+db.create_all()
+
+### INITIALIZE LOGIN
+login_manager = LoginManager()
+login_manager.init_app(app)
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
+
+
 @app.route('/')
 def home():
     return render_template("index.html")
+
+
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    if request.method=="POST":
+        inputpw=request.form.get("password")
+        inputemail=request.form.get("email")
+        account=User.query.filter_by(email=inputemail).first()
+        if account is None:
+            flash('User does not exist')
+        else:
+            if check_password_hash(account.password, inputpw)==False:
+                flash('Incorrect Password')
+            else:
+                login_user(account)
+                flash('Logged in successfully.')
+                return redirect(url_for('secrets', name=account.name))
+    return render_template("login.html", logged_in=current_user.is_authenticated)
