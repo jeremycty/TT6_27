@@ -33,11 +33,18 @@ class ExchangeRate(db.Model):
             dictionary[column.name]=getattr(self, column.name)
         return dictionary
 
+##create Wallet TABLE
+class Wallet(db.Model):
+    __tablename__ = "wallet"
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
+    name = db.Column(db.String(1000))
+
 ##create Currency TABLE
 class Currency(db.Model):
     __tablename__ = "currency"
     id = db.Column(db.Integer(), primary_key=True)
-    wallet_id = db.Column(db.Integer(), db.ForeignKey('wallet_id'), nullable=False)
+    wallet_id = db.Column(db.Integer(), db.ForeignKey('wallet.id'), nullable=False)
     currency = db.Column(db.String(100), nullable=False)
     amount = db.Column(db.Float(), nullable=True)
 
@@ -45,7 +52,7 @@ class Currency(db.Model):
 class Transaction(db.Model):
     __tablename__ = "transaction"
     id = db.Column(db.Integer(), primary_key=True)
-    wallet_id = db.Column(db.Integer(), db.ForeignKey('wallet_id'), nullable=False)
+    wallet_id = db.Column(db.Integer(), db.ForeignKey('wallet.id'), nullable=False)
     debit_id = db.Column(db.Integer(), nullable=False)
     debit_currency = db.Column(db.String(100), nullable=False)
     debit_amount = db.Column(db.Float(), nullable=False)
