@@ -33,6 +33,28 @@ class ExchangeRate(db.Model):
             dictionary[column.name]=getattr(self, column.name)
         return dictionary
 
+##create Currency TABLE
+class currency(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    currency = db.Column(db.String(100), nullable=False)
+    amount = db.Column(db.Integer, primary_key=True)
+
+##create Transaction TABLE
+class transaction(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    debit_currency = db.Column(db.String(100), nullable=False)
+    debit_amount = db.Column(db.Integer, primary_key=True)
+    credit_currency = db.Column(db.String(100), nullable=False)
+    credit_amount = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.Text)
+    created_at = db.Column(db.DateTime(timezone=True))
+    create_by = db.Column(db.String(100), nullable=False)
+    updated_at = db.Column(db.DateTime(timezone=True))
+    updated_by = db.Column(db.String(100), nullable=False)
+
+    def __repr__(self):
+        return f'{self.debit_currency} - {self.debit_amount}'
+  
 # db.create_all()
 
 ### INITIALIZE LOGIN
