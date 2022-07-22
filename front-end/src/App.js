@@ -5,6 +5,7 @@ import Header from "./components/Header"
 import Home from "./page/Home"
 import Dashboard from "./page/Dashboard"
 import Secondpage from "./page/Secondpage"
+import Transaction from "./page/Transaction"
 
 function App() {
   return (
@@ -15,7 +16,11 @@ function App() {
       <Routes> 
         <Route path='/' element={<Home/>}></Route>
         <Route path='/second' element={<Secondpage/>}></Route>
+<<<<<<< HEAD
         <Route path='/dashboard' element={<Dashboard/>}></Route>
+=======
+        <Route path='/transaction' element={<Transaction/>}></Route>
+>>>>>>> 7f2a279 (transaction)
       </Routes> 
 
     </div>
