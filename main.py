@@ -36,27 +36,29 @@ class ExchangeRate(db.Model):
 ##create Currency TABLE
 class Currency(db.Model):
     __tablename__ = "currency"
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True)
+    wallet_id = db.Column(db.Integer(), db.ForeignKey('wallet_id'), nullable=False)
     currency = db.Column(db.String(100), nullable=False)
-    amount = db.Column(db.Integer, nullable=True)
+    amount = db.Column(db.Float(), nullable=True)
 
 ##create Transaction TABLE
 class Transaction(db.Model):
     __tablename__ = "transaction"
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True)
+    wallet_id = db.Column(db.Integer(), db.ForeignKey('wallet_id'), nullable=False)
+    debit_id = db.Column(db.Integer(), nullable=False)
     debit_currency = db.Column(db.String(100), nullable=False)
-    debit_amount = db.Column(db.Integer, primary_key=True)
+    debit_amount = db.Column(db.Float(), nullable=False)
+    credit_id = db.Column(db.Integer(), nullable=False)
     credit_currency = db.Column(db.String(100), nullable=False)
-    credit_amount = db.Column(db.Integer, primary_key=True)
-    description = db.Column(db.Text)
+    credit_amount = db.Column(db.Float(), nullable=False)
+    description = db.Column(db.Text())
     created_at = db.Column(db.DateTime(timezone=True))
     create_by = db.Column(db.String(100), nullable=False)
     updated_at = db.Column(db.DateTime(timezone=True))
     updated_by = db.Column(db.String(100), nullable=False)
 
-    def __repr__(self):
-        return f'{self.debit_currency} - {self.debit_amount}'
-  
+
 db.create_all()
 currencyaccountdata=[
   {
@@ -273,11 +275,11 @@ def exchange_rates():
 @app.route('/currency')
 def currency():
     return redirect(url_for('currency'))
-    
+
 @app.route('/transaction')
 def transaction():
     return redirect(url_for('transaction'))
-    
-    
+
+
 if __name__=="__main__":
     app.run(debug=True)
