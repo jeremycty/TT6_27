@@ -16,11 +16,8 @@ function App() {
       <Routes> 
         <Route path='/' element={<Home/>}></Route>
         <Route path='/second' element={<Secondpage/>}></Route>
-<<<<<<< HEAD
         <Route path='/dashboard' element={<Dashboard/>}></Route>
-=======
         <Route path='/transaction' element={<Transaction/>}></Route>
->>>>>>> 7f2a279 (transaction)
       </Routes> 
 
     </div>
