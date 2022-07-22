@@ -134,8 +134,12 @@ def currency():
 def add_transaction():
     transactions = models.users.query.all()
     if request.method == 'POST':
+        id = request.args.get('id')
+        wallet_id = request.args.get('wallet_id')
+        debit_id = request.args.get('debit_id')
         debit_currency = request.args.get('debit_currency')
         debit_amount = request.args.get('debit_amount')
+        credit_id = request.args.get('credit_id')
         credit_currency = request.args.get('credit_currency')
         credit_amount = request.args.get('credit_amount')
         description = request.args.get('description')
@@ -143,7 +147,10 @@ def add_transaction():
         create_by = request.args.get('create_by')
         updated_at = request.args.get('updated_at')
         updated_by = request.args.get('updated_by')
-        new_transaction = models.Transactions(debit_currency=debit_currency, debit_amount=debit_amount, credit_currency=credit_currency, credit_amount=credit_amount, description=description, created_at=created_at, create_by=create_by, updated_at=updated_at, updated_by=updated_by)
+        new_transaction = models.Transactions(id=id, wallet_id=wallet_id, debit_id=debit_id, debit_currency=debit_currency, debit_amount=debit_amount,
+                                              credit_id=credit_id, credit_currency=credit_currency, credit_amount=credit_amount,
+                                              description=description, created_at=created_at, create_by=create_by,
+                                              updated_at=updated_at, updated_by=updated_by)
         db.session.add(new_transaction)
         db.session.commit()
 
