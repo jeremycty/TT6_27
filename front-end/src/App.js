@@ -3,8 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import './css/App.css';
 import Header from "./components/Header"
 import Home from "./page/Home"
+import Dashboard from "./page/Dashboard"
 import Secondpage from "./page/Secondpage"
-
 
 function App() {
   return (
@@ -15,6 +15,7 @@ function App() {
       <Routes> 
         <Route path='/' element={<Home/>}></Route>
         <Route path='/second' element={<Secondpage/>}></Route>
+        <Route path='/dashboard' element={<Dashboard/>}></Route>
       </Routes> 
 
     </div>

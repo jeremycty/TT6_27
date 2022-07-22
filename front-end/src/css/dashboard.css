@@ -1,0 +1,38 @@
+div.bar {
+    background-color: #333;
+    overflow: auto;
+    white-space: nowrap;
+    display: flex;
+    border-radius: 0px !important;
+    margin: 30px 20px 20px 20px;
+}
+
+div.bar a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+}
+
+div.bar a:hover {
+    background-color: #777;
+}
+
+.currency--box{
+    min-width: 200px;
+}
+
+.dashboard-title{
+    color: rgb(232, 153, 139);
+    font-family: Montserrat, sans-serif;
+    font-size: 45px;
+    font-weight: 600;
+    text-align: left;
+    /* padding: 0 15%; */
+    margin: 35px 0px 10px 30px !important;
+}
+
+.button--div{
+    margin: auto;
+}
