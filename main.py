@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, flash, send_from_directory, jsonify
+from flask import Flask, render_template, request, url_for, redirect, flash, send_from_directory, jsonify, Blueprint
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
@@ -17,13 +17,13 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(1000))
 
 ##create Currency TABLE
-class currency(db.model):
+class currency(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     currency = db.Column(db.String(100), nullable=False)
     amount = db.Column(db.Integer, primary_key=True)
 
 ##create Transaction TABLE
-class transaction(db.model):
+class transaction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     debit_currency = db.Column(db.String(100), nullable=False)
     debit_amount = db.Column(db.Integer, primary_key=True)
@@ -34,6 +34,9 @@ class transaction(db.model):
     create_by = db.Column(db.String(100), nullable=False)
     updated_at = db.Column(db.DateTime(timezone=True))
     updated_by = db.Column(db.String(100), nullable=False)
+
+    def __repr__(self):
+        return f'{self.debit_currency} - {self.debit_amount}'
 
 #Line below only required once, when creating DB.
 db.create_all()
@@ -68,10 +71,11 @@ def login():
                 return redirect(url_for('home', current_user=current_user))
     return render_template("login.html")
 
-@app.route('/currency', methods=["GET", "POST"])
-def currency():
-    user_currency=
-    return jsonify
+@app.route('/transactions', methods=["POST"])
+def transactions():
+    return redirect(url_for('transactions'))
+
+
 
 if __name__=="__main__":
     app.run(debug=True)
