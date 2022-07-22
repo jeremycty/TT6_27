@@ -46,17 +46,13 @@ function LoginForm({ Login, error }) {
             Sign in
           </Typography>
           <Box
-            component="form"
-            onSubmit={submitHandler}
             noValidate
             sx={{ mt: 1 }}
           >
-            <form>
+            <form
+            onSubmit={submitHandler}>
               <TextField
-                onChange={(e) =>
-                  setDetails({ ...details, username: e.target.value })
-                }
-                value={details.name}
+
                 margin="normal"
                 required
                 fullWidth
@@ -89,11 +85,9 @@ function LoginForm({ Login, error }) {
                 Sign In
               </Button>
             </form>
-
-            <form onSubmit={submitHandler}>
-              {/* calls above function */}
+{/* ------------------------------------- */}
+            {/* <form onSubmit={submitHandler}>
               <div className="form-inner">
-                {/* <h2>Login</h2> */}
                 {error !== '' ? <div className="error">{error}</div> : ''}
                 <div className="form-group">
                   <label htmlFor="name">Name:</label>
@@ -133,7 +127,7 @@ function LoginForm({ Login, error }) {
                 </div>
                 <input type="submit" value="LOGIN" />
               </div>
-            </form>
+            </form> */}
           </Box>
         </Box>
       </Container>
