@@ -132,9 +132,22 @@ def exchange_rates():
 def currency():
     return redirect(url_for('currency'))
 
-@app.route('/transaction')
-def transaction():
-    return redirect(url_for('transaction'))
+@app.route('/add_transaction')
+def add_transaction():
+    transactions = models.users.query.all()
+    if request.method == 'POST':
+        debit_currency = request.args.get('debit_currency')
+        debit_amount = request.args.get('debit_amount')
+        credit_currency = request.args.get('credit_currency')
+        credit_amount = request.args.get('credit_amount')
+        description = request.args.get('description')
+        created_at = request.args.get('created_at')
+        create_by = request.args.get('create_by')
+        updated_at = request.args.get('updated_at')
+        updated_by = request.args.get('updated_by')
+        new_transaction = models.Transactions(debit_currency=debit_currency, debit_amount=debit_amount, credit_currency=credit_currency, credit_amount=credit_amount, description=description, created_at=created_at, create_by=create_by, updated_at=updated_at, updated_by=updated_by)
+        db.session.add(new_transaction)
+        db.session.commit()
 
 @app.route('/wallet', methods = ["GET"])
 def wallet():
