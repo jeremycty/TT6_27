@@ -48,12 +48,6 @@ class Currency(db.Model):
     currency = db.Column(db.String(100), nullable=False)
     amount = db.Column(db.Float(), nullable=True)
 
-    def to_dict(self):
-        dictionary={}
-        for column in self.__table__.columns:
-            dictionary[column.name]=getattr(self, column.name)
-        return dictionary
-
 ##create Transaction TABLE
 class Transaction(db.Model):
     __tablename__ = "transaction"
@@ -134,9 +128,7 @@ def exchange_rates():
 
 @app.route('/currency')
 def currency():
-    allcurrencywallets=Currency.query.all()
-    allcurrencywalletsdict=[currencywallet.to_dict() for currencywallet in allcurrencywallets]
-    return jsonify(currency_wallets=allcurrencywalletsdict)
+    return redirect(url_for('currency'))
 
 @app.route('/add_transaction')
 def add_transaction():
@@ -154,6 +146,7 @@ def add_transaction():
         new_transaction = models.Transactions(debit_currency=debit_currency, debit_amount=debit_amount, credit_currency=credit_currency, credit_amount=credit_amount, description=description, created_at=created_at, create_by=create_by, updated_at=updated_at, updated_by=updated_by)
         db.session.add(new_transaction)
         db.session.commit()
+    return redirect(url_for('transaction'))
 
 @app.route('/wallet', methods = ["GET"])
 def wallet():
