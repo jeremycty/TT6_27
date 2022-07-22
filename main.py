@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, flash
+from flask import Flask, render_template, request, url_for, redirect, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 
@@ -25,6 +25,12 @@ class ExchangeRate(db.Model):
     base_currency = db.Column(db.String(100))
     exchange_currency = db.Column(db.String(100), unique=True)
     rate = db.Column(db.Integer)
+
+    def to_dict(self):
+        dictionary={}
+        for column in self.__table__.columns:
+            dictionary[column.name]=getattr(self, column.name)
+        return dictionary
 
 # db.create_all()
 
@@ -58,10 +64,12 @@ def login():
                 return redirect(url_for('home', current_user=current_user))
     return render_template("login.html")
 
-@app.route('/exchange-rates', methods=["GET", "POST"])
+@app.route('/exchange-rates', methods=["GET"])
 def exchange_rates():
-    pass
+    rates=ExchangeRate.query.all()
+    allratesdict=[rate.to_dict() for rate in rates]
+    return jsonify(rates=allratesdict)
 
 
-# if __name__=="__main__":
-#     app.run(debug=True)
+if __name__=="__main__":
+    app.run(debug=True)
