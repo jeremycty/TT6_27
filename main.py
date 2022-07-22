@@ -51,11 +51,14 @@ def home():
 @app.route('/login', methods=["POST"])
 def login():
     if request.method=="POST":
+#### Retrive input details from user
         inputpw=request.form.get("password")
         inputemail=request.form.get("email")
+######Check if user is registered in database
         account=User.query.filter_by(email=inputemail).first()
         if account is None:
             flash('User does not exist')
+######Check if password is correct
         else:
             if account.password== inputpw:
                 flash('Incorrect Password')
@@ -64,6 +67,11 @@ def login():
                 flash('Logged in successfully.')
                 return redirect(url_for('home', current_user=current_user))
     return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
 @app.route('/exchange-rates')
 def exchange_rates():
