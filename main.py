@@ -71,9 +71,9 @@ def login():
                 return redirect(url_for('home', current_user=current_user))
     return render_template("login.html")
 
-@app.route('/transactions', methods=["POST"])
+@app.route('/transactions', methods=["GET", "POST"])
 def transactions():
-    return redirect(url_for('transactions'))
+    return render_template('transactions.html')
 
 
 
