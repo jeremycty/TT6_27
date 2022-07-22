@@ -141,7 +141,7 @@ def currency():
 
 @app.route('/add_transaction')
 def add_transaction():
-    transactions = models.users.query.all()
+    transactions = Transaction.query.all(walletid)
     if request.method == 'POST':
         id = request.args.get('id')
         wallet_id = request.args.get('wallet_id')
