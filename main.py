@@ -138,11 +138,22 @@ def transaction():
 def wallet():
     wallet_info = Wallet.query.all()
     wallet_dict = []
-
     for info in wallet_info:
         wallet_dict.append({'id': info.id, 'user_id': info.user_id,'name': info.name})
-
     return jsonify(wallet_dict)
+
+@app.route('/delete/<int:walletid>')
+def deletewallet(walletid):
+    ##Delete from wallet table
+    wallettodelete=Wallet.query.get(walletid)
+    db.session.delete(wallettodelete)
+    db.session.commit()
+    ### Delete from currency table
+    currenciestodelete=Currency.query.filter_by(wallet_id=walletid).all()
+    for currency in currenciestodelete:
+        db.session.delete(currency)
+        db.session.commit()
+    return (url_for('home'))
 
 if __name__=="__main__":
     app.run(debug=True)
